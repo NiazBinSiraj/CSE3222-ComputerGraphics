@@ -1,31 +1,72 @@
 #include <graphics.h>
+#include <bits/stdc++.h>
 
 void plotLine(int x1, int y1, int x2, int y2, int color)
 {
-    int dx,dy,p,x,y;
-    dx = x2-x1;
-    dy = y2-y1;
+    double m;
+    int dx,dy,p;
+    int x,y,xEnd;
+
+    dx = abs(x2-x1);
+    dy = abs(y2-y1);
+    m = (double) dy/dx;
+
+    if(x1 > x2)
+    {
+        std::swap(x1,x2);
+        std::swap(y1,y2);
+    }
+
     x = x1;
     y = y1;
-    p = 2*dy - dx;
+    putpixel(x,y,color);
 
-    while(x<= x2 && y<=y2)
+
+    if(m < 1)
     {
-        if(p<0)
+        p = 2*dy - dx;
+        while(x<x2)
         {
-            x++;
-            putpixel(x,y,color);
+            if(p<0)
+            {
+                x++;
+                putpixel(x,y,color);
 
-            p = p + (2*dy);
+                p = p + (2*dy);
+            }
+
+            else
+            {
+                x++;
+                y++;
+                putpixel(x,y,color);
+
+                p = p + (2*dy) - (2*dx);
+            }
         }
+    }
 
-        else
+    else
+    {
+        p = 2*dx - dy;
+        while(x<x2)
         {
-            x++;
-            y++;
-            putpixel(x,y,color);
+            if(p<0)
+            {
+                y++;
+                putpixel(x,y,color);
 
-            p = p + (2*dy) - (2*dx);
+                p = p + (2*dx);
+            }
+
+            else
+            {
+                x++;
+                y++;
+                putpixel(x,y,color);
+
+                p = p + (2*dx) - (2*dy);
+            }
         }
     }
     return;
@@ -38,9 +79,8 @@ int main()
 
     initgraph(&gd, &gm, "");
 
-    setcolor(WHITE);
+    plotLine(100,50,200,200,WHITE);
 
-    plotLine(50,50,200,200,WHITE);
 
     getch();
     closegraph();
